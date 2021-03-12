@@ -1,7 +1,6 @@
 #ISIS1225 - Librerias de soporte
 
 Integrantes:
-
 Req. 2 - Jesús Jiménez 202020431 j.jimenez21@uniandes.edu.co
 Req. 3 - Juan Camilo Bonet 202022466 j.bonet@uniandes.edu.co
 
