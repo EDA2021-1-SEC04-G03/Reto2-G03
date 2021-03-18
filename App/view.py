@@ -37,9 +37,9 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Consultar los videos con más views por país y categoría")
 
-catalog = None
+cont = None
 
 """
 Menu principal
@@ -48,10 +48,37 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
+        
         print("Cargando información de los archivos ....")
+        cont = controller.initCatalog()
+        controller.loadData(cont)
+        print('Videos cargados: ' + str(controller.videosSize(cont)))
+        print('Categorías de los videos: ' + str(controller.categoriesSize(cont)))
+        print('Categorías cargadas: ' + str(controller.categoriesListSize(cont)))
 
     elif int(inputs[0]) == 2:
-        pass
+        #req 1
+        size=0
+        category_name = input("Indique la categoría de los videos a consultar: ")
+        country = input("Indique el país de los videos a consultar: ")
+        id=controller.getIDbyCategoryName(cont, category_name)
+
+        videosByCat=controller.getVideosByCategory(cont, id)
+
+        filteredList=controller.filterVideos(videosByCat, ['country'],[country])
+
+        while size<1 or size>lt.size(filteredList['videos']):
+            size = int(input("Indique el número de videos a listar: "))
+
+        print("Ordenando datos...\n")
+        result = controller.sortVideos(filteredList, size, 'views')
+
+        print('Videos top {} para {} bajo la categoría {}:\n'.format(size,country,category_name))
+
+        print("trending_date | title | channel_title | publish_time | views | likes | dislikes")
+        for i in lt.iterator(result):
+            print(i['trending_date'],'|',i['title'],'|',i['channel_title'],'|',
+            i['publish_time'],'|',i['views'],'|',i['likes'],'|',i['dislikes'])
 
     else:
         sys.exit(0)
