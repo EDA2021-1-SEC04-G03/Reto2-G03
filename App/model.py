@@ -40,7 +40,7 @@ los mismos.
 
 # Construccion de modelos
 
-def newCatalog():
+def newCatalog(tipoMapa, factorCarga):
 
     catalog = {'videos': None,
                'category': None,
@@ -52,8 +52,8 @@ def newCatalog():
     catalog['category_id'] = lt.newList('SINGLE_LINKED')
 
     catalog['category'] = mp.newMap(40,
-                                   maptype='CHAINING',
-                                   loadfactor=0.5,
+                                   maptype=tipoMapa,
+                                   loadfactor=factorCarga,
                                    comparefunction=None)
 
     return catalog

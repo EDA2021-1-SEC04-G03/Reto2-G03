@@ -39,6 +39,24 @@ def printMenu():
     print("1- Cargar información en el catálogo")
     print("2- Consultar los videos con más views por país y categoría")
 
+def printMenuMapa():
+    print("Seleccione el tipo de mapa que quiere crear:")
+    print("1- Probing")
+    print("2- Chaining")
+
+def obtenerTipoMapa():
+    iterate=True
+    while iterate:
+        printMenuMapa()
+        inputs = input('Seleccione una opción para continuar\n')
+        if int(inputs[0]) == 1:
+            tipo_mapa='PROBING'
+            iterate=False
+        elif int(inputs[0]) == 2:
+            tipo_mapa='CHAINING'
+            iterate=False
+    return tipo_mapa
+
 cont = None
 
 """
@@ -48,13 +66,19 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        
+
+        mapType= obtenerTipoMapa()
+        loadFactor = float(input("Indique el factor de carga a usar: "))
+
         print("Cargando información de los archivos ....")
-        cont = controller.initCatalog()
-        controller.loadData(cont)
+
+        cont = controller.initCatalog(mapType, loadFactor)
+        answer = controller.loadData(cont)
         print('Videos cargados: ' + str(controller.videosSize(cont)))
         print('Categorías de los videos: ' + str(controller.categoriesSize(cont)))
         print('Categorías cargadas: ' + str(controller.categoriesListSize(cont)))
+        print("Tiempo [ms]: ", f"{answer[0]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{answer[1]:.3f}")
 
     elif int(inputs[0]) == 2:
         #req 1
