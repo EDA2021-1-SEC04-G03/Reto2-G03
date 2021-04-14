@@ -38,6 +38,7 @@ def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
     print("2- Consultar los videos con más views por país y categoría")
+    print("0- Salir")
 
 def printMenuMapa():
     print("Seleccione el tipo de mapa que quiere crear:")
@@ -62,7 +63,8 @@ cont = None
 """
 Menu principal
 """
-while True:
+running = True
+while running:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
@@ -104,6 +106,7 @@ while True:
             print(i['trending_date'],'|',i['title'],'|',i['channel_title'],'|',
             i['publish_time'],'|',i['views'],'|',i['likes'],'|',i['dislikes'])
 
-    else:
-        sys.exit(0)
+    elif int(inputs[0]) == 0:
+        running = False
+        print("Adios!")
 sys.exit(0)
