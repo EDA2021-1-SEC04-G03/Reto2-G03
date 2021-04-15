@@ -121,7 +121,15 @@ while running:
         print("title | channel_title | country | Días")
         print(result[0]['title'],'|',result[0]['channel_title'],'|',result[0]['country'],'|',result[1])
 
+    elif int(inputs[0]) == 4:
+        #req 3
+        cat = input("Categoria:")
+
+        controller.trendingByCat(cont,cat)
+    
     elif int(inputs[0]) == 0:
         running = False
         print("Adios!")
+
+
 sys.exit(0)
