@@ -57,7 +57,7 @@ def newCatalog(tipoMapa, factorCarga):
                                    loadfactor=factorCarga,
                                    comparefunction=None)
 
-    catalog['country'] = mp.newMap(120,
+    catalog['country'] = mp.newMap(15,
                                    maptype=tipoMapa,
                                    loadfactor=factorCarga,
                                    comparefunction=None)
