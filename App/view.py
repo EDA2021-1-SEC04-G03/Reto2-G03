@@ -34,12 +34,19 @@ se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
 
+def printLine():
+    print('-------------------------------------')
+
 def printMenu():
+    printLine()
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
     print("2- Consultar los videos con más views por país y categoría")
     print("3- Consultar el video que más dias ha sido trending por país")
+    print('4- Consultar el video mas trending por categoria')
+    print('5- Consultar los n videos con mas likes por Pais y Tag')
     print("0- Salir")
+    printLine()
 
 def printMenuMapa():
     print("Seleccione el tipo de mapa que quiere crear:")
@@ -130,6 +137,30 @@ while running:
         print("title | channel_title | Category_ID | Días")
         print(result[0]['title'],'|',result[0]['channel_title'],'|',result[0]['category_id'],'|',result[1])
     
+    elif int(inputs[0]) == 4:
+        #req 3
+        cat = input("Categoria:")
+
+        result = controller.trendingByCat(cont,cat)
+
+        print("title | channel_title | Category_ID | Días")
+        print(result[0]['title'],'|',result[0]['channel_title'],'|',result[0]['category_id'],'|',result[1])
+
+    elif int(inputs[0]) == 5:
+        #req 4
+        tag = input("Tag: ")
+        country = input('Pais: ')
+        Nvids = int(input('Cuantos videos: '))
+        print('Cargando...')
+        result = controller.searchByTag(cont, Nvids, tag, country)
+
+        print("done")
+        print('Los {} video(s) con mas likes para {} tag en {} es:\n'.format(Nvids, tag, country))
+        for i in result['elements']:
+            print("title | channel_title | Dia de publicacion | views | likes | dislikes | tags")
+            print(i['title'],'|',i['channel_title'],'|',i['publish_time'],'|',i['views'],'|', 
+                  i['likes'],'|',i['dislikes'],'|',i['tags'].split('|'))
+
     elif int(inputs[0]) == 0:
         running = False
         print("Adios!")

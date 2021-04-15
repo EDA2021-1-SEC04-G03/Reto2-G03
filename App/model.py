@@ -279,3 +279,16 @@ def sortVideos(catalog, size, criteria):
         sorted_list = lt.subList(sorted_list, 1, size)
 
     return sorted_list
+
+def filterVidsByTag (catalog, tag):
+
+    newCatalog = {'videos': None}
+
+    newCatalog['videos'] = lt.newList('ARRAY_LIST',
+                            cmpfunction=cmpVideosByViews)
+
+    for video in lt.iterator(catalog['videos']):
+        if ((tag in video['tags'])):
+            lt.addLast(newCatalog['videos'], video)
+    
+    return newCatalog

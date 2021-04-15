@@ -193,5 +193,15 @@ def trendingByCat (catalog, category):
     vidsSorted = model.sortVideos(vidsInCat,None,'title')
     topVid = model.getTopVideoByTrendingDate(vidsSorted)
 
-    #['first', 'last', 'size', 'key', 'type', 'cmpfunction']
     return topVid
+
+def searchByTag(catalog, videos, tag, country):
+    '''
+    Busca N videos con un tag especifico en un pais
+    '''
+    tag = '"'+tag+'"'
+    vidsCountry = model.getVideosByCountry(catalog,country)
+    vidsConTag = model.filterVidsByTag(vidsCountry,tag)
+    result = model.sortVideos(vidsConTag,videos,'likes')
+    print(result)
+    return result
