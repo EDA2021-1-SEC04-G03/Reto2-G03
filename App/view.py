@@ -110,8 +110,6 @@ while running:
         
         videosByCountry=controller.getVideosByCountry(cont, country)
 
-        #filteredList=controller.filterVideos(videosByCountry, [],[])
-
         print("Ordenando datos...\n")
 
         organizedList = controller.sortVideos(videosByCountry, None, 'title')
