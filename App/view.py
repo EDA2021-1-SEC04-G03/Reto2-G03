@@ -127,19 +127,10 @@ while running:
         
         print("title | channel_title | country | Días")
         print(result[0]['title'],'|',result[0]['channel_title'],'|',result[0]['country'],'|',result[1])
-
-    elif int(inputs[0]) == 4:
-        #req 3
-        cat = input("Categoria:")
-
-        result = controller.trendingByCat(cont,cat)
-
-        print("title | channel_title | Category_ID | Días")
-        print(result[0]['title'],'|',result[0]['channel_title'],'|',result[0]['category_id'],'|',result[1])
     
     elif int(inputs[0]) == 4:
         #req 3
-        cat = input("Categoria:")
+        cat = input("Indique la categoría de los videos a consultar: ")
 
         result = controller.trendingByCat(cont,cat)
 
@@ -148,13 +139,12 @@ while running:
 
     elif int(inputs[0]) == 5:
         #req 4
-        tag = input("Tag: ")
-        country = input('Pais: ')
-        Nvids = int(input('Cuantos videos: '))
+        tag = input("Indique el tag de los videos a listar: ")
+        country = input('Indique el país de los videos a consultar: ')
+        Nvids = int(input('Indique el número de videos a listar: '))
         print('Cargando...')
         result = controller.searchByTag(cont, Nvids, tag, country)
 
-        print("done")
         print('Los {} video(s) con mas likes para {} tag en {} es:\n'.format(Nvids, tag, country))
         for i in result['elements']:
             print("title | channel_title | Dia de publicacion | views | likes | dislikes | tags")

@@ -203,5 +203,4 @@ def searchByTag(catalog, videos, tag, country):
     vidsCountry = model.getVideosByCountry(catalog,country)
     vidsConTag = model.filterVidsByTag(vidsCountry,tag)
     result = model.sortVideos(vidsConTag,videos,'likes')
-    print(result)
     return result
