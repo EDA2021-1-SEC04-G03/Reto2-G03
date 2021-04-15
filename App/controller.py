@@ -20,6 +20,7 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
+from os import name
 import time
 import tracemalloc
 import config as cf
@@ -168,3 +169,12 @@ def deltaMemory(start_memory, stop_memory):
     # de Byte -> kByte
     delta_memory = delta_memory/1024.0
     return delta_memory
+
+
+def trendingByCat (catalog, category):
+    catId = getIDbyCategoryName(catalog, category)
+    vidsInCat = model.getVideosByCategory(catalog, catId)
+    keysTest = vidsInCat['videos']
+    #['first', 'last', 'size', 'key', 'type', 'cmpfunction']
+    keysTest = keysTest['first']['info']
+    print(keysTest.keys())

@@ -106,7 +106,16 @@ while running:
             print(i['trending_date'],'|',i['title'],'|',i['channel_title'],'|',
             i['publish_time'],'|',i['views'],'|',i['likes'],'|',i['dislikes'])
 
+    
+    elif int(inputs[0]) == 4:
+        #req 3
+        cat = input("Categoria:")
+
+        controller.trendingByCat(cont,cat)
+
     elif int(inputs[0]) == 0:
         running = False
         print("Adios!")
+
+
 sys.exit(0)
