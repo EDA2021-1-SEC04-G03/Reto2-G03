@@ -44,6 +44,7 @@ def newCatalog(tipoMapa, factorCarga):
 
     catalog = {'videos': None,
                'category': None,
+               'country': None,
                'category_id': None}
 
 
@@ -52,6 +53,11 @@ def newCatalog(tipoMapa, factorCarga):
     catalog['category_id'] = lt.newList('SINGLE_LINKED')
 
     catalog['category'] = mp.newMap(40,
+                                   maptype=tipoMapa,
+                                   loadfactor=factorCarga,
+                                   comparefunction=None)
+
+    catalog['country'] = mp.newMap(120,
                                    maptype=tipoMapa,
                                    loadfactor=factorCarga,
                                    comparefunction=None)
@@ -66,6 +72,7 @@ def addVideo(catalog, video):
     """
     lt.addLast(catalog['videos'], video)
     addCategory(catalog, video['category_id'], video)
+    addCountry(catalog, video['country'], video)
 
 def addCategory(catalog, category_id, video):
     """
@@ -80,6 +87,20 @@ def addCategory(catalog, category_id, video):
         category = newCategory(category_id)
         mp.put(categories, category_id, category)
     lt.addLast(category['videos'], video)
+
+def addCountry(catalog, country, video):
+    """
+    Esta función adiciona un video a la lista de videos de la misma categoría.
+    """
+    countries = catalog['country']
+    existcountry = mp.contains(countries, country)
+    if existcountry:
+        entry = mp.get(countries, country)
+        countrybean = me.getValue(entry)
+    else:
+        countrybean = newCountry(country)
+        mp.put(countries, country, countrybean)
+    lt.addLast(countrybean['videos'], video)
 
 def addCategoryList(catalog, category):
     """
@@ -135,8 +156,20 @@ def newCategory(name):
     category = {'name': "",
               "videos": None}
     category['name'] = name
-    category['videos'] = lt.newList('SINGLE_LINKED', None)
+    category['videos'] = lt.newList('ARRAY_LIST', None)
     return category
+
+def newCountry(name):
+    """
+    Crea una nueva estructura para modelar los videos de un autor
+    y su promedio de ratings. Se crea una lista para guardar los
+    libros de dicho autor.
+    """
+    country = {'name': "",
+              "videos": None}
+    country['name'] = name
+    country['videos'] = lt.newList('ARRAY_LIST', None)
+    return country
 
 #Funciones de filtración
 
@@ -169,6 +202,10 @@ def filterVideos(catalog, fields, criterias):
 def getVideosByCategory(catalog, catid):
     entry = mp.get(catalog['category'], catid)
     return me.getValue(entry)
+
+def getVideosByCountry(catalog, country):
+    entry = mp.get(catalog['country'], country)
+    return me.getValue(entry)
     
 
 def getIDbyCategoryName(catalog, catname):
@@ -197,9 +234,37 @@ def categoriesSize(catalog):
     """
     return mp.size(catalog['category'])
 
+def countriesSize(catalog):
+    """
+    Numero de autores en el catalogo
+    """
+    return mp.size(catalog['country'])
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento
+
+def getTopVideoByTrendingDate(catalog):
+    tempElement=lt.firstElement(catalog)
+    topElemento=None
+    contTopElement=0
+    contador=0
+    
+    for elemento in lt.iterator(catalog):
+        if elemento['video_id']==tempElement['video_id']:
+            contador+=1
+        else:
+            if contador>contTopElement:
+                topElemento=tempElement
+                contTopElement=contador
+            contador=1
+            tempElement=elemento
+    
+    if contador>contTopElement:
+        topElemento=tempElement
+        contTopElement=contador
+
+    return (topElemento,contTopElement)
 
 def sortVideos(catalog, size, criteria):
 

@@ -38,6 +38,7 @@ def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
     print("2- Consultar los videos con más views por país y categoría")
+    print("3- Consultar el video que más dias ha sido trending por país")
     print("0- Salir")
 
 def printMenuMapa():
@@ -69,18 +70,14 @@ while running:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
 
-        mapType= obtenerTipoMapa()
-        loadFactor = float(input("Indique el factor de carga a usar: "))
-
         print("Cargando información de los archivos ....")
 
-        cont = controller.initCatalog(mapType, loadFactor)
+        cont = controller.initCatalog('PROBING', 0.5)
         answer = controller.loadData(cont)
         print('Videos cargados: ' + str(controller.videosSize(cont)))
         print('Categorías de los videos: ' + str(controller.categoriesSize(cont)))
+        print('Paises de los videos: ' + str(controller.countriesSize(cont)))
         print('Categorías cargadas: ' + str(controller.categoriesListSize(cont)))
-        print("Tiempo [ms]: ", f"{answer[0]:.3f}", "  ||  ",
-              "Memoria [kB]: ", f"{answer[1]:.3f}")
 
     elif int(inputs[0]) == 2:
         #req 1
@@ -105,6 +102,26 @@ while running:
         for i in lt.iterator(result):
             print(i['trending_date'],'|',i['title'],'|',i['channel_title'],'|',
             i['publish_time'],'|',i['views'],'|',i['likes'],'|',i['dislikes'])
+
+    elif int(inputs[0]) == 3:
+        #Req 2
+        size=1
+        country = input("Indique el país de los videos a consultar: ")
+        
+        videosByCountry=controller.getVideosByCountry(cont, country)
+
+        #filteredList=controller.filterVideos(videosByCountry, [],[])
+
+        print("Ordenando datos...\n")
+
+        organizedList = controller.sortVideos(videosByCountry, None, 'title')
+
+        result = controller.getTopVideoByTrendingDate(organizedList)
+
+        print('El video top trending para {} es:\n'.format(country))
+        
+        print("title | channel_title | country | Días")
+        print(result[0]['title'],'|',result[0]['channel_title'],'|',result[0]['country'],'|',result[1])
 
     elif int(inputs[0]) == 0:
         running = False

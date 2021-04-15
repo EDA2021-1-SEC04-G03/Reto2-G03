@@ -98,6 +98,12 @@ def filterVideos(catalog, fields, criterias):
 
 # Funciones de ordenamiento
 
+def getTopVideoByTrendingDate(catalog):
+    """
+    Ordena los libros por average_rating
+    """
+    return model.getTopVideoByTrendingDate(catalog)
+
 def sortVideos(catalog, size, criteria):
     """
     Ordena los libros por average_rating
@@ -109,6 +115,10 @@ def sortVideos(catalog, size, criteria):
 def getVideosByCategory(catalog, catid):
 
     return model.getVideosByCategory(catalog, catid)
+
+def getVideosByCountry(catalog, country):
+
+    return model.getVideosByCountry(catalog, country)
 
 def getIDbyCategoryName(catalog, catname):
     """
@@ -127,6 +137,12 @@ def categoriesSize(catalog):
     Numero de autores cargados al catalogo
     """
     return model.categoriesSize(catalog)
+
+def countriesSize(catalog):
+    """
+    Numero de autores cargados al catalogo
+    """
+    return model.countriesSize(catalog)
 
 def categoriesListSize(catalog):
     """
