@@ -125,7 +125,10 @@ while running:
         #req 3
         cat = input("Categoria:")
 
-        controller.trendingByCat(cont,cat)
+        result = controller.trendingByCat(cont,cat)
+
+        print("title | channel_title | Category_ID | Días")
+        print(result[0]['title'],'|',result[0]['channel_title'],'|',result[0]['category_id'],'|',result[1])
     
     elif int(inputs[0]) == 0:
         running = False

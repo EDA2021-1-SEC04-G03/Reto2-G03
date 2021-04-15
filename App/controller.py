@@ -188,9 +188,10 @@ def deltaMemory(start_memory, stop_memory):
 
 
 def trendingByCat (catalog, category):
-    catId = getIDbyCategoryName(catalog, category)
+    catId = model.getIDbyCategoryName(catalog, category)
     vidsInCat = model.getVideosByCategory(catalog, catId)
-    keysTest = vidsInCat['videos']
+    vidsSorted = model.sortVideos(vidsInCat,None,'title')
+    topVid = model.getTopVideoByTrendingDate(vidsSorted)
+
     #['first', 'last', 'size', 'key', 'type', 'cmpfunction']
-    keysTest = keysTest['first']['info']
-    print(keysTest.keys())
+    return topVid
